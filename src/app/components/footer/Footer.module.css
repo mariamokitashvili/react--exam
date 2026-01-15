@@ -1,0 +1,28 @@
+.footer {
+  width: 100%;
+  padding: 15px 30px;
+  background-color: #0000ff;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  bottom: 0;
+  left: 0;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.left span {
+  margin-right: 20px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.right span {
+  font-size: 0.85rem;
+}
+
+.left span:hover {
+  text-decoration: underline;
+}
