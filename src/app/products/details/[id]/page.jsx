@@ -1,15 +1,8 @@
+export const dynamic = "force-dynamic";
+
 import styles from "./ProductDetails.module.css";
 import AddToCartButton from "@/app/cart/AddToCartButton";
 import { notFound } from "next/navigation";
-
-export async function generateStaticParams() {
-  const res = await fetch("https://fakestoreapi.com/products");
-  const products = await res.json();
-
-  return products.map((product) => ({
-    id: product.id.toString(),
-  }));
-}
 
 async function getProduct(id) {
   const res = await fetch(`https://fakestoreapi.com/products/${id}`, {
@@ -21,7 +14,7 @@ async function getProduct(id) {
 }
 
 export default async function Page({ params }) {
-  const id = params.id;
+  const { id } = await params;
 
   const product = await getProduct(id);
   if (!product) return notFound();
