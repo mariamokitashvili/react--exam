@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 
 import Link from "next/link";
-import styles from "./Products.module.css";
+import styles from "./products.module.css";
 
 async function getProducts() {
   // ვიყენებთ try-catch-ს, რომ თუ API-მ HTML დააბრუნა

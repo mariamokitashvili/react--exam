@@ -3,7 +3,7 @@ export const dynamic = "force-dynamic";
 
 import { notFound } from "next/navigation";
 import AddToCartButton from "@/app/cart/AddToCartButton";
-import styles from "./ProductDetails.module.css";
+import styles from "./details.module.css";
 
 async function getProduct(id) {
   try {
