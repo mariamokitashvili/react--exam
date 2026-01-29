@@ -5,25 +5,20 @@ import styles from "./products.module.css";
 
 async function getProducts() {
   try {
+    // აიძულე Vercel-ი, რომ ყოველთვის ახალი ინფორმაცია აიღოს
     const res = await fetch("https://fakestoreapi.com/products", {
-      // ვაიძულებთ Vercel-ს ყოველთვის ახალი მონაცემები წამოიღოს
-      next: { revalidate: 0 },
-      method: "GET",
+      next: { revalidate: 0 }, // Next.js-ის სპეციალური სეთინგია
       headers: {
-        "Content-Type": "application/json",
-        "User-Agent": "Mozilla/5.0", // ზოგჯერ API ბლოკავს სერვერულ მოთხოვნებს ამის გარეშე
+        Accept: "application/json",
       },
     });
 
-    if (!res.ok) {
-      console.error(`API Error: ${res.status}`);
-      return [];
-    }
+    if (!res.ok) throw new Error("API Error");
 
     const data = await res.json();
     return data;
   } catch (error) {
-    console.error("Fetch error on Vercel:", error);
+    console.error("Vercel Fetch Error:", error);
     return [];
   }
 }
