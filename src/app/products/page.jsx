@@ -52,7 +52,7 @@ export default function ProductsPage() {
               </p>
             )}
             <Link
-              href={`/products/details/${product.id}`}
+              href={`/products/${product.id}`}
               className={styles.detailsLink}
             >
               View Details
