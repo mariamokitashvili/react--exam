@@ -1,39 +1,50 @@
 import styles from "./ProductDetails.module.css";
 import AddToCartButton from "@/app/cart/AddToCartButton";
+import { notFound } from "next/navigation";
 
 async function getProduct(id) {
-  const res = await fetch(`https://fakestoreapi.com/products/${id}`, {
-    cache: "no-store",
-  });
-  if (!res.ok) throw new Error("Product not found");
-  return res.json();
+  try {
+    const res = await fetch(`https://fakestoreapi.com/products/${id}`, {
+      cache: "no-store",
+    });
+
+    if (!res.ok) return null;
+
+    return await res.json();
+  } catch (error) {
+    return null;
+  }
 }
 
 export default async function Page({ params }) {
   const { id } = await params;
 
-  if (!id) return <h2>Product not found </h2>;
+  if (!id) return notFound();
 
-  let product;
-  try {
-    product = await getProduct(id);
-  } catch (err) {
-    return <h2>Product not found </h2>;
-  }
+  const product = await getProduct(id);
+  if (!product) return notFound();
 
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>{product.title}</h1>
+
       <img
-        className={styles.productImage}
         src={product.image}
         alt={product.title}
+        className={styles.productImage}
       />
-      <p className={styles.description}>{product.description}</p>
-      <p className={styles.category}>Category: {product.category}</p>
-      <p className={styles.price}>Price: ${product.price}</p>
-      <p className={styles.rating}>Rating: {product.rating.rate} ⭐</p>
-      <p className={styles.ratingCount}>({product.rating.count} reviews)</p>
+
+      <p>{product.description}</p>
+      <p>
+        <strong>Category:</strong> {product.category}
+      </p>
+      <p>
+        <strong>Price:</strong> ${product.price}
+      </p>
+      <p>
+        <strong>Rating:</strong> {product.rating?.rate ?? 0} ⭐ (
+        {product.rating?.count ?? 0} reviews)
+      </p>
 
       <AddToCartButton product={product} />
     </div>

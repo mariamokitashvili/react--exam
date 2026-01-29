@@ -22,14 +22,12 @@ export default function ProductsPage() {
       });
   }, []);
 
-  if (loading) {
+  if (loading)
     return <p style={{ textAlign: "center" }}>Loading products...</p>;
-  }
 
   return (
     <div className={styles.productsWrapper}>
       <h1 className={styles.title}>Products</h1>
-
       <div className={styles.productsGrid}>
         {products.map((product) => (
           <div key={product.id} className={styles.card}>
@@ -38,17 +36,13 @@ export default function ProductsPage() {
               alt={product.title}
               className={styles.image}
             />
-
             <h3 className={styles.productTitle}>{product.title}</h3>
-
             <p className={styles.category}>
               <strong>Category:</strong> {product.category}
             </p>
-
             <p className={styles.price}>
               <strong>Price:</strong> ${product.price}
             </p>
-
             {product.rating && (
               <p className={styles.rating}>
                 <span className={styles.stars}>
@@ -57,7 +51,6 @@ export default function ProductsPage() {
                 ({product.rating.count} reviews)
               </p>
             )}
-
             <Link
               href={`/products/details/${product.id}`}
               className={styles.detailsLink}
