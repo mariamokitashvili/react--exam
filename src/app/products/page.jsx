@@ -1,49 +1,36 @@
 export const dynamic = "force-dynamic";
-
 import Link from "next/link";
 import styles from "./products.module.css";
 
 async function getProducts() {
-  try {
-    // აიძულე Vercel-ი, რომ ყოველთვის ახალი ინფორმაცია აიღოს
-    const res = await fetch("https://fakestoreapi.com/products", {
-      next: { revalidate: 0 }, // Next.js-ის სპეციალური სეთინგია
-      headers: {
-        Accept: "application/json",
-      },
-    });
-
-    if (!res.ok) throw new Error("API Error");
-
-    const data = await res.json();
-    return data;
-  } catch (error) {
-    console.error("Vercel Fetch Error:", error);
-    return [];
-  }
+  const res = await fetch("https://fakestoreapi.com/products", {
+    cache: "no-store",
+  });
+  if (!res.ok) return [];
+  return res.json();
 }
+
 export default async function ProductsPage() {
   const products = await getProducts();
 
-  // თუ პროდუქტები ვერ წამოიღო
   if (!products || products.length === 0) {
-    return <div className={styles.container}>მონაცემები ვერ მოიძებნა...</div>;
+    return (
+      <div className={styles.container}>
+        მონაცემები ვერ მოიძებნა (Vercel API Issue)
+      </div>
+    );
   }
 
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Products</h1>
       <div className={styles.grid}>
-        {products.map((product) => (
-          <div key={product.id} className={styles.card}>
-            <img
-              src={product.image}
-              alt={product.title}
-              className={styles.image}
-            />
-            <h3 className={styles.name}>{product.title}</h3>
-            <p className={styles.price}>${product.price}</p>
-            <Link href={`/products/${product.id}`} className={styles.button}>
+        {products.map((p) => (
+          <div key={p.id} className={styles.card}>
+            <img src={p.image} alt={p.title} className={styles.image} />
+            <h3 className={styles.name}>{p.title}</h3>
+            <p className={styles.price}>${p.price}</p>
+            <Link href={`/products/${p.id}`} className={styles.button}>
               View details
             </Link>
           </div>
