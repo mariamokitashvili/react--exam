@@ -1,0 +1,98 @@
+.wrapper {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 16px;
+}
+
+.title {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.headerRow {
+  display: grid;
+  grid-template-columns: 1fr 180px 140px 40px;
+  padding: 12px 20px;
+  font-weight: 600;
+  border-bottom: 2px solid #ddd;
+}
+
+.cart {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.empty {
+  text-align: center;
+  padding: 30px;
+  color: #777;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 1fr 180px 140px 40px;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.item:last-child {
+  border-bottom: none;
+}
+
+.product {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.product img {
+  width: 70px;
+  object-fit: contain;
+}
+
+.product h4 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.qty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.qty button {
+  width: 26px;
+  height: 26px;
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+  align-items: end;
+}
+
+.qty span {
+  min-width: 20px;
+  text-align: center;
+}
+
+.price {
+  font-weight: 600;
+}
+
+.delete {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.delete:hover {
+  color: red;
+}
