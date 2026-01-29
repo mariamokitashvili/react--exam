@@ -1,8 +1,13 @@
+export const dynamic = "force-dynamic";
+
 import Link from "next/link";
 import styles from "./Products.module.css";
 
 async function getProducts() {
-  const res = await fetch("https://fakestoreapi.com/products");
+  const res = await fetch("https://fakestoreapi.com/products", {
+    cache: "no-store",
+  });
+
   return res.json();
 }
 
