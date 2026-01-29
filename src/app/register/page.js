@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import styles from "./page.module.css";
+import styles from "./Page.module.css";
 
 const schema = yup.object({
   firstName: yup
