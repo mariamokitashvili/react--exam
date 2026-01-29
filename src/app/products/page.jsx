@@ -1,35 +1,38 @@
 export const dynamic = "force-dynamic";
 
 import Link from "next/link";
-import styles from "./products.module.css";
+import styles from "./products.module.css"; // დარწმუნდი, რომ ფაილსაც პატარა p ჰქვია
 
 async function getProducts() {
-  // ვიყენებთ try-catch-ს, რომ თუ API-მ HTML დააბრუნა
   try {
     const res = await fetch("https://fakestoreapi.com/products", {
       cache: "no-store",
     });
 
-    // თუ პასუხი არ არის OK (მაგ. 404 ან 500), გადავდივართ catch-ზე
     if (!res.ok) {
-      console.error("API response not ok");
-      return [];
+      return { error: `API-მ დააბრუნა სტატუსი: ${res.status}` };
     }
 
-    return await res.json();
-  } catch (error) {
-    console.error("Fetch error:", error);
-    return []; // აბრუნებს ცარიელ მასივს, რომ map-მა არ დაერორა
+    const data = await res.json();
+    return { data };
+  } catch (err) {
+    return { error: err.message };
   }
 }
 
 export default async function ProductsPage() {
-  const products = await getProducts();
+  const result = await getProducts();
 
-  // თუ პროდუქტები ვერ წამოიღო
-  if (!products || products.length === 0) {
-    return <div className={styles.container}>მონაცემები ვერ მოიძებნა...</div>;
+  if (result.error) {
+    return (
+      <div className={styles.container}>
+        <h2 style={{ color: "red" }}>შეცდომა: {result.error}</h2>
+        <p>სცადეთ გვერდის დარეფრეშება</p>
+      </div>
+    );
   }
+
+  const products = result.data || [];
 
   return (
     <div className={styles.container}>
