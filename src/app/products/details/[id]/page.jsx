@@ -1,53 +1,36 @@
-export const dynamic = "force-dynamic";
-
 import styles from "./ProductDetails.module.css";
 import AddToCartButton from "@/app/cart/AddToCartButton";
 import { notFound } from "next/navigation";
 
+export async function generateStaticParams() {
+  const res = await fetch("https://fakestoreapi.com/products");
+  const products = await res.json();
+
+  return products.map((product) => ({
+    id: product.id.toString(),
+  }));
+}
+
 async function getProduct(id) {
-  try {
-    const res = await fetch(`https://fakestoreapi.com/products/${id}`, {
-      cache: "no-store",
-    });
+  const res = await fetch(`https://fakestoreapi.com/products/${id}`, {
+    cache: "no-store",
+  });
 
-    if (!res.ok) return null;
-
-    return await res.json();
-  } catch (error) {
-    return null;
-  }
+  if (!res.ok) return null;
+  return res.json();
 }
 
 export default async function Page({ params }) {
-  const { id } = await params;
-
-  if (!id) return notFound();
+  const id = params.id;
 
   const product = await getProduct(id);
   if (!product) return notFound();
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>{product.title}</h1>
-
-      <img
-        src={product.image}
-        alt={product.title}
-        className={styles.productImage}
-      />
-
+      <h1>{product.title}</h1>
+      <img src={product.image} alt={product.title} />
       <p>{product.description}</p>
-      <p>
-        <strong>Category:</strong> {product.category}
-      </p>
-      <p>
-        <strong>Price:</strong> ${product.price}
-      </p>
-      <p>
-        <strong>Rating:</strong> {product.rating?.rate ?? 0} ⭐ (
-        {product.rating?.count ?? 0} reviews)
-      </p>
-
       <AddToCartButton product={product} />
     </div>
   );
