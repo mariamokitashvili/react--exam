@@ -1,5 +1,5 @@
 .navbar {
-  background-color: #0d2bdc;
+  background-color: #c9a24d;
   padding: 16px 0;
 }
 
@@ -13,15 +13,17 @@
 }
 
 .navList li a {
-  color: white;
+  color: #000;
   text-decoration: none;
   font-size: 18px;
   font-weight: 500;
-  transition: color 0.2s, transform 0.2s;
+  transition:
+    color 0.2s,
+    transform 0.2s;
 }
 
 .navList li a:hover {
-  color: #fbff00;
+  color: #725801;
   transform: scale(1.05);
   text-decoration: none;
 }

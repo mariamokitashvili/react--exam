@@ -1,34 +1,19 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Link from "next/link";
-import styles from "./Products.module.css";
+import styles from "./products.module.css";
 
-function renderStars(rate = 0) {
-  const fullStars = Math.round(rate);
-  return "★".repeat(fullStars) + "☆".repeat(5 - fullStars);
+async function getProducts() {
+  const res = await fetch("https://fakestoreapi.com/products");
+  return res.json();
 }
 
-export default function ProductsPage() {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch("https://fakestoreapi.com/products")
-      .then((res) => res.json())
-      .then((data) => {
-        setProducts(data);
-        setLoading(false);
-      });
-  }, []);
-
-  if (loading)
-    return <p style={{ textAlign: "center" }}>Loading products...</p>;
+export default async function ProductsPage() {
+  const products = await getProducts();
 
   return (
-    <div className={styles.productsWrapper}>
+    <div className={styles.container}>
       <h1 className={styles.title}>Products</h1>
-      <div className={styles.productsGrid}>
+
+      <div className={styles.grid}>
         {products.map((product) => (
           <div key={product.id} className={styles.card}>
             <img
@@ -36,26 +21,13 @@ export default function ProductsPage() {
               alt={product.title}
               className={styles.image}
             />
-            <h3 className={styles.productTitle}>{product.title}</h3>
-            <p className={styles.category}>
-              <strong>Category:</strong> {product.category}
-            </p>
-            <p className={styles.price}>
-              <strong>Price:</strong> ${product.price}
-            </p>
-            {product.rating && (
-              <p className={styles.rating}>
-                <span className={styles.stars}>
-                  {renderStars(product.rating.rate)}
-                </span>{" "}
-                ({product.rating.count} reviews)
-              </p>
-            )}
-            <Link
-              href={`/products/${product.id}`}
-              className={styles.detailsLink}
-            >
-              View Details
+
+            <h3 className={styles.name}>{product.title}</h3>
+
+            <p className={styles.price}>${product.price}</p>
+
+            <Link href={`/products/${product.id}`} className={styles.button}>
+              View details
             </Link>
           </div>
         ))}

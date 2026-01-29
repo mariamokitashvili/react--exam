@@ -30,7 +30,7 @@ export default function AddToCartButton({ product }) {
         onClick={handleAddToCart}
         style={{
           padding: "10px 18px",
-          backgroundColor: added ? "#22c55e" : "#0070f3",
+          backgroundColor: added ? "#c9a24d" : "#000",
           color: "white",
           border: "none",
           borderRadius: "8px",
