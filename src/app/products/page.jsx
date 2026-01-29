@@ -4,25 +4,29 @@ import Link from "next/link";
 import styles from "./products.module.css";
 
 async function getProducts() {
-  // ვიყენებთ try-catch-ს, რომ თუ API-მ HTML დააბრუნა
   try {
     const res = await fetch("https://fakestoreapi.com/products", {
-      cache: "no-store",
+      // ვაიძულებთ Vercel-ს ყოველთვის ახალი მონაცემები წამოიღოს
+      next: { revalidate: 0 },
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "User-Agent": "Mozilla/5.0", // ზოგჯერ API ბლოკავს სერვერულ მოთხოვნებს ამის გარეშე
+      },
     });
 
-    // თუ პასუხი არ არის OK (მაგ. 404 ან 500), გადავდივართ catch-ზე
     if (!res.ok) {
-      console.error("API response not ok");
+      console.error(`API Error: ${res.status}`);
       return [];
     }
 
-    return await res.json();
+    const data = await res.json();
+    return data;
   } catch (error) {
-    console.error("Fetch error:", error);
-    return []; // აბრუნებს ცარიელ მასივს, რომ map-მა არ დაერორა
+    console.error("Fetch error on Vercel:", error);
+    return [];
   }
 }
-
 export default async function ProductsPage() {
   const products = await getProducts();
 
