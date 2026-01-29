@@ -1,3 +1,6 @@
+// 1. ეს ხაზი აუცილებელია Vercel-ისთვის, რომ Build-ის დროს არ გაჭედოს
+export const dynamic = "force-dynamic";
+
 import { notFound } from "next/navigation";
 import AddToCartButton from "@/app/cart/AddToCartButton";
 import styles from "./ProductDetails.module.css";
@@ -10,7 +13,8 @@ async function getProduct(id) {
 
     if (!res.ok) return null;
     return await res.json();
-  } catch {
+  } catch (error) {
+    console.error("Error fetching product:", error);
     return null;
   }
 }
@@ -19,6 +23,7 @@ export default async function Page({ params }) {
   const { id } = await params;
 
   const product = await getProduct(id);
+
   if (!product) return notFound();
 
   return (
