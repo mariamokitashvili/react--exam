@@ -1,5 +1,5 @@
 import Link from "next/link";
-import styles from "./products.module.css";
+import styles from "./Products.module.css";
 
 async function getProducts() {
   const res = await fetch("https://fakestoreapi.com/products");
