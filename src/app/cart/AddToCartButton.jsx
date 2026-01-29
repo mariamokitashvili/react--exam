@@ -1,40 +1,51 @@
 "use client";
 
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "@/redux/cartSlice";
 import { useState } from "react";
 
 export default function AddToCartButton({ product }) {
+  const dispatch = useDispatch();
+  const { isAuthenticated } = useSelector((state) => state.auth);
+
   const [added, setAdded] = useState(false);
+  const [error, setError] = useState("");
 
   const handleAddToCart = () => {
-    if (!product) return;
-
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-    const exists = cart.find((item) => item.id === product.id);
-    if (!exists) {
-      cart.push({ ...product, quantity: 1 });
-      localStorage.setItem("cart", JSON.stringify(cart));
+    if (!isAuthenticated) {
+      setError("Please login first to add items to cart");
+      return;
     }
 
-    setAdded(true);
+    dispatch(addToCart(product));
 
-    setTimeout(() => setAdded(false), 2000);
+    setError("");
+    setAdded(true);
+    setTimeout(() => setAdded(false), 1200);
   };
 
   return (
-    <div>
+    <div style={{ marginTop: "12px" }}>
       <button
         onClick={handleAddToCart}
         style={{
-          padding: "10px 20px",
-          backgroundColor: added ? "green" : "lightblue",
-          borderRadius: "5px",
-          color: added ? "#fff" : "#000",
+          padding: "10px 18px",
+          backgroundColor: added ? "#22c55e" : "#0070f3",
+          color: "white",
+          border: "none",
+          borderRadius: "8px",
           cursor: "pointer",
+          transition: "all 0.3s ease",
         }}
       >
-        {added ? "Added to cart!" : "Add to Cart"}
+        {added ? "Added to Cart" : "Add to Cart"}
       </button>
+
+      {error && (
+        <p style={{ color: "red", marginTop: "6px", fontSize: "14px" }}>
+          {error}
+        </p>
+      )}
     </div>
   );
 }
