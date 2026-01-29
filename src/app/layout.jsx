@@ -21,7 +21,6 @@ export default function RootLayout({ children }) {
         <Providers>
           <NavBar />
           <main style={{ flex: 1 }}>{children}</main>
-
           <Footer />
         </Providers>
       </body>
