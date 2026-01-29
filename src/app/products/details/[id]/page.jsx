@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import styles from "./ProductDetails.module.css";
 import AddToCartButton from "@/app/cart/AddToCartButton";
 import { notFound } from "next/navigation";
