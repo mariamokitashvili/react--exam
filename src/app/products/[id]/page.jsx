@@ -1,4 +1,3 @@
-// 1. ეს ხაზი აუცილებელია Vercel-ისთვის, რომ Build-ის დროს არ გაჭედოს
 export const dynamic = "force-dynamic";
 
 import { notFound } from "next/navigation";
@@ -20,7 +19,9 @@ async function getProduct(id) {
 }
 
 export default async function Page({ params }) {
-  const { id } = await params;
+  // Next.js 15-ისთვის აუცილებელია params-ის დაwait-ება
+  const resolvedParams = await params;
+  const id = resolvedParams.id;
 
   const product = await getProduct(id);
 
@@ -39,7 +40,7 @@ export default async function Page({ params }) {
 
           {product.rating && (
             <p className={styles.rating}>
-              ⭐ {product.rating.rate} ({product.rating.count} reviews)
+              Rating: {product.rating.rate} ({product.rating.count} reviews)
             </p>
           )}
 

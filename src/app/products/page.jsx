@@ -3,11 +3,16 @@ import Link from "next/link";
 import styles from "./products.module.css";
 
 async function getProducts() {
-  const res = await fetch("https://fakestoreapi.com/products", {
-    cache: "no-store",
-  });
-  if (!res.ok) return [];
-  return res.json();
+  try {
+    const res = await fetch("https://fakestoreapi.com/products", {
+      cache: "no-store",
+    });
+    if (!res.ok) return [];
+    return await res.json();
+  } catch (error) {
+    console.error("Fetch error on products page:", error);
+    return [];
+  }
 }
 
 export default async function ProductsPage() {
