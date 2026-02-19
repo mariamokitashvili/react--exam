@@ -21,7 +21,7 @@ export default async function ProductsPage() {
   if (!products || products.length === 0) {
     return (
       <div className={styles.container}>
-        მონაცემები ვერ მოიძებნა (Vercel API Issue)
+        მონაცემები ვერ მოიძებნა (შეამოწმეთ Vercel Logs)
       </div>
     );
   }

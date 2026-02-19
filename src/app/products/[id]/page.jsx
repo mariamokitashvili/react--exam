@@ -19,7 +19,7 @@ async function getProduct(id) {
 }
 
 export default async function Page({ params }) {
-  // Next.js 15-ისთვის აუცილებელია params-ის დაwait-ება
+  // Next.js 15-ისთვის params არის Promise
   const resolvedParams = await params;
   const id = resolvedParams.id;
 
