@@ -1,46 +1,23 @@
-export const dynamic = "force-dynamic";
-import Link from "next/link";
-import styles from "./products.module.css";
-
 async function getProducts() {
   try {
     const res = await fetch("https://fakestoreapi.com/products", {
       cache: "no-store",
+      // ვამატებთ User-Agent-ს, რომ API-მ მოთხოვნა არ დაბლოკოს
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+        Accept: "application/json",
+      },
     });
-    if (!res.ok) return [];
+
+    if (!res.ok) {
+      console.error(`API Error: ${res.status}`);
+      return [];
+    }
+
     return await res.json();
   } catch (error) {
-    console.error("Fetch error on products page:", error);
+    console.error("Fetch failed entirely:", error);
     return [];
   }
-}
-
-export default async function ProductsPage() {
-  const products = await getProducts();
-
-  if (!products || products.length === 0) {
-    return (
-      <div className={styles.container}>
-        მონაცემები ვერ მოიძებნა (შეამოწმეთ Vercel Logs)
-      </div>
-    );
-  }
-
-  return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>Products</h1>
-      <div className={styles.grid}>
-        {products.map((p) => (
-          <div key={p.id} className={styles.card}>
-            <img src={p.image} alt={p.title} className={styles.image} />
-            <h3 className={styles.name}>{p.title}</h3>
-            <p className={styles.price}>${p.price}</p>
-            <Link href={`/products/${p.id}`} className={styles.button}>
-              View details
-            </Link>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
 }
